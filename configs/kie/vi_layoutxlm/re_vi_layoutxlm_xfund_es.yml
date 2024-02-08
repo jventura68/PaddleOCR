@@ -1,18 +1,18 @@
 Global:
   use_gpu: False
-  epoch_num: &epoch_num 130
+  epoch_num: &epoch_num 10
   log_smooth_window: 10
   print_batch_step: 10
-  save_model_dir: ./output/re_vi_layoutxlm_xfund_zh
-  save_epoch_step: 2000
+  save_model_dir: ./output/re_vi_layoutxlm_xfund_es
+  save_epoch_step: 300
   # evaluation is run every 10 iterations after the 0th iteration
   eval_batch_step: [ 0, 19 ]
   cal_metric_during_train: False
   save_inference_dir:
-  use_visualdl: False
+  use_visualdl: True
   seed: 2022
-  infer_img: ppstructure/docs/kie/input/zh_val_21.jpg
-  save_res_path: ./output/re/xfund_zh/with_gt
+  infer_img: test_data/invoices/34ca9e1a-34022662G-7995378-0191JLP.png
+  save_res_path: ./output/re/xfund_es/res
   kie_rec_model_dir: 
   kie_det_model_dir:
 
@@ -53,9 +53,9 @@ Metric:
 Train:
   dataset:
     name: SimpleDataSet
-    data_dir: train_data/XFUND/zh_train/image
+    data_dir: train_data/XFUND_ES/train
     label_file_list: 
-      - train_data/XFUND/zh_train/train.json
+      - train_data/XFUND_ES/train.json
     ratio_list: [ 1.0 ]
     transforms:
       - DecodeImage: # load image
@@ -64,7 +64,7 @@ Train:
       - VQATokenLabelEncode: # Class handling label
           contains_re: True
           algorithm: *algorithm
-          class_path: &class_path train_data/XFUND/class_list_xfun.txt
+          class_path: &class_path train_data/XFUND_ES/class_list_xfund.txt
           use_textline_bbox_info: &use_textline_bbox_info True
           order_method: &order_method "tb-yx"
       - VQATokenPad:
@@ -87,15 +87,15 @@ Train:
   loader:
     shuffle: True
     drop_last: False
-    batch_size_per_card: 2
+    batch_size_per_card: 1
     num_workers: 4
 
 Eval:
   dataset:
     name: SimpleDataSet
-    data_dir: train_data/XFUND/zh_val/image
+    data_dir: train_data/XFUND_ES/val
     label_file_list:
-      - train_data/XFUND/zh_val/val.json
+      - train_data/XFUND_ES/val-no-33.json
     transforms:
       - DecodeImage: # load image
           img_mode: RGB
@@ -126,5 +126,5 @@ Eval:
   loader:
     shuffle: False
     drop_last: False
-    batch_size_per_card: 8
-    num_workers: 8
+    batch_size_per_card: 1
+    num_workers: 4

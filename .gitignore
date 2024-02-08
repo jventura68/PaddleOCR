@@ -1,3 +1,6 @@
+#Python venv
+.venv/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 .ipynb_checkpoints/
@@ -7,6 +10,8 @@ __pycache__/
 # C extensions
 *.so
 
+pretrained_model/
+test_data/
 inference/
 inference_results/
 output/
